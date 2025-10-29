@@ -23,11 +23,11 @@ export default function Sidebar({
 	const pathname = usePathname();
 
 	const menuItems = [
-		{ icon: faHome, label: "Inicio", href: "/dashboard" },
-		{ icon: faSearch, label: "Servicios", href: "/servicios" },
-		{ icon: faCalendar, label: "Reservas", href: "/reservas" },
-		{ icon: faCommentDots, label: "Mensajes", href: "/mensajes" },
-		{ icon: faUser, label: "Perfil", href: "/perfil" },
+		{ icon: faHome, label: "Inicio", href: "/home" },
+		{ icon: faSearch, label: "Servicios", href: "/services" },
+		{ icon: faCalendar, label: "Reservas", href: "/appointments" },
+		{ icon: faCommentDots, label: "Mensajes", href: "/messages" },
+		{ icon: faUser, label: "Perfil", href: "/profile" },
 	];
 
 	return (
@@ -285,7 +285,7 @@ export default function Sidebar({
 					</span>
 				</div>
 
-				{/* Campana (sin hamburguesa) */}
+				{/* Notificaciones*/}
 				<div className="relative">
 					<FontAwesomeIcon
 						icon={faBell}
