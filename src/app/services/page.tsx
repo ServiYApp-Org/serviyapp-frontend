@@ -67,26 +67,71 @@ const services = [
 export default function PageServices() {
     return (
         <main className="flex flex-col bg--background ml-10">
-            <h1 className="font-bold text-[var(--color-primary)] text-3xl mt-10">Servicios</h1>
-            <div className="flex-end w-[70%] bg-[var(--color-primary)] rounded-2xl py-1 mt-6">
-                <h4 className="mt-4 mx-4 text-white text-xl font-semibold">Ecuentra tu servicio de belleza ideal</h4>
-                <span className="m-4 text-sm text-white">Profesionales certificados a tu domicilio</span>
+            <h1 className="font-bold text-[var(--color-primary)] text-5xl mt-10">Servicios</h1>
+            <div className="flex-end justify-between w-[70%] bg-[var(--color-primary)] rounded-2xl py-1 mt-6">
+                <h4 className="mt-4 mx-4 text-white text-2xl font-semibold">
+                    Encuentra tu servicio de belleza ideal
+                </h4>
+                <span className="m-4 text-md  text-white">
+                    Profesionales certificados a tu domicilio
+                </span>
 
-                {/* Barra de busqueda -Va a ser un componente "use client" pero necesito que pusheen para traerme la carpeta- */}
-                <ul className="flex justify-around gap-4 bg-white p-2 rounded-lg m-4">
-                    <li className="flex flex-col text-black ">Servicio <span className="text-black/30 text-sm">Escribe el servicio</span></li>
-                    <li className="flex flex-col text-black ">Provincia o Estado <span className="text-black/30 text-sm">Ingresa tu provincia</span></li>
-                    <li className="flex flex-col text-black ">Ciudad <span className="text-black/30 text-sm">Ingresa tu ciudad</span></li>
-                    <li className="flex flex-col text-black ">Fecha <span className="text-black/30 text-sm">Agrega la fecha</span></li>
-                    <button className="bg-[var(--color-primary)] rounded-full w-[40px] h-[40px]"> 🔍 </button>
-                </ul>
+                {/* Barra de búsqueda, que va a ser un componente "use client"*/}
+                <form className="flex justify-around items-center gap-4 bg-white p-2 rounded-3xl m-4">
+                    
+                    {/* Servicio */}
+                    <div className="flex flex-col text-black px-3">
+                    <label className="text-sm font-medium">Servicio</label>
+                    <input
+                        type="text"
+                        placeholder="Escribe el servicio"
+                        className="text-black/70 text-sm focus:outline-none placeholder:text-black/40"
+                    />
+                    </div>
+
+                    {/* Provincia */}
+                    <div className="flex flex-col text-black px-3 border-l border-black/10">
+                    <label className="text-sm font-medium">Provincia o Estado</label>
+                    <select className="text-black/70 text-sm focus:outline-none">
+                        <option value="">Selecciona una provincia</option>
+                        <option value="buenosaires">Buenos Aires</option>
+                        <option value="cordoba">Córdoba</option>
+                        <option value="santafe">Santa Fe</option>
+                    </select>
+                    </div>
+
+                    {/* Ciudad */}
+                    <div className="flex flex-col text-black px-3 border-l border-black/10">
+                    <label className="text-sm font-medium">Ciudad</label>
+                    <select className="text-black/70 text-sm focus:outline-none">
+                        <option value="">Selecciona una ciudad</option>
+                    </select>
+                    </div>
+
+                    {/* Fecha y hora */}
+                    <div className="flex flex-col text-black px-3 border-l border-black/10">
+                    <label className="text-sm font-medium">Fecha y Hora</label>
+                    <input
+                        type="datetime-local"
+                        className="text-black/70 text-sm focus:outline-none"
+                    />
+                    </div>
+
+                    {/* Botón buscar */}
+                    <button
+                    type="button"
+                    className="bg-[var(--color-primary)] rounded-full w-[40px] h-[40px] hover:bg-[var(--color-primary-hover)] flex items-center justify-center text-white text-lg "
+                    >
+                    🔍
+                    </button>
+                </form>
             </div>
             <span className="text-black/30 mt-5"> Filtra por:
                     <ul className="flex text-black font-semibold gap-2 p-2 rounded-lg mb-4 mx-4 ">
-                        <li className="border border-black/10 rounded-2xl px-4 py-2">Menor precio</li>
-                        <li className="border border-black/10 rounded-2xl px-4 py-2">Mejor Valorado</li>
-                        <li className="border border-black/10 rounded-2xl px-4 py-2">Menor Duracion</li>
-                        <li className="border border-black/10 rounded-2xl px-4 py-2">Categoria</li>
+                        <li className="border border-black/10 rounded-2xl px-4 py-2 hover:bg-black/5">💲 Menor precio</li>
+                        <li className="border border-black/10 rounded-2xl px-4 py-2 hover:bg-black/5">⭐ Mejor Valorado</li>
+                        <li className="border border-black/10 rounded-2xl px-4 py-2 hover:bg-black/5">🕓 Menor Duracion</li>
+                        <li className="border border-black/10 rounded-2xl px-4 py-2 hover:bg-black/5">🏷 Categoria</li>
                     </ul>
             </span>
             <div>
@@ -95,18 +140,18 @@ export default function PageServices() {
                 <div className="grid grid-cols-3 justify-items-center gap-4 mt-4">
                     {services.map((service) => (
                         // Tarjeta de servicio (que va a ser un componente aparte)
-                        <div key={service.id} className="flex flex-col w-[330px] h-[440px] border border-black/50 rounded-lg">
+                        <div key={service.id} className="flex flex-col w-[330px] h-[440px] border border-black/50 rounded-lg hover:scale-105 transition-scale hover:shadow-lg transition-shadow bg-white">
                             <div className="relative h-[60%]">
                                 <img
                                 src={service.photo}
                                 alt={`Imagen de ${service.name}`}
-                                className="w-full h-full object-cover"
+                                className="w-full h-full rounded-t-lg object-cover"
                                 />
                                 <button className="absolute top-2 right-2 bg-white/80 px-2 py-1 rounded-full text-sm font-medium hover:scale-105 transition-transform">
                                 ❤
                                 </button>
-                                <span className="absolute bottom-2 left-2 bg-white/80 px-2 py-1 rounded-lg text-sm font-medium">
-                                Category
+                                <span className="absolute bottom-2 left-2 bg-white/90 px-2 py-1 rounded-lg text-sm font-medium">
+                                🏷 Category
                                 </span>
                             </div>
                             <p className="pt-2 px-2 text-2xl font-semibold text-[var(--color-primary)] "> {service.name} </p>
@@ -116,8 +161,8 @@ export default function PageServices() {
                                 <p className="px-2 text-md text-[var(--color-primary)] font-bold">{service.rating}⭐</p>
                             </span>
                             <span className="flex flex-row justify-between px-1 mt-2">
-                                <p className="px-2 text-md text-[var(--color-primary)] font-bold">${service.price}.mx</p>
-                                <button className="bg-[var(--color-primary)] px-3 py-1 rounded-xl text-white hover:scale-[1.05] hover:bg-[var(--color-primary)]/95 transition "> Ver más</button>
+                                <p className="px-2 text-md text-[var(--color-primary)] font-bold">${service.price} mxn</p>
+                                <button className="bg-[var(--color-primary)] px-3 py-1 rounded-xl text-white hover:scale-[1.05] hover:bg-[var(--color-primary-hover)] transition "> Ver más</button>
                             </span>
                         </div>
                     ))}
