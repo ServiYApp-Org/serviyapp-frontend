@@ -1,6 +1,7 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { faBell, faCalendar, faHeart, faStar, faUser } from "@fortawesome/free-regular-svg-icons";
-import { faChevronRight, faGear } from "@fortawesome/free-solid-svg-icons";
+import { faGear } from "@fortawesome/free-solid-svg-icons";
+import ProfileItem from "@/app/components/ProfileItem";
 
 export default function ProfilePage() {
 
@@ -8,8 +9,9 @@ export default function ProfilePage() {
 	return (
 		<main className="max-w-4xl  mt-8">
 			<h1 className="text-[48px] font-bold text-[var(--color-primary)] mb-6">Perfil</h1>
+			{/* Contenedor Información del USUARIO */}
 			<div className="bg-[var(--color-primary)] p-6 rounded-3xl text-white flex flex-col gap-8">
-				<div className="flex flex-col md:flex-row justify-center items-center gap-6">
+				<div className="flex flex-col md:flex-row items-center gap-6">
 					<img
 						src="https://i.pravatar.cc/40?img=3"
 						alt="User profilePicture"
@@ -35,20 +37,21 @@ export default function ProfilePage() {
 					</div>
 				</span>
 			</div>
+			{/* Contenedor de Items del perfil, Todavia no tienen funcionalidad, ni Link */}
 			<div className="flex flex-col lg:flex-row justify-around gap-4 mt-8 w-[100%]">
 				<div className="flex flex-col gap-6 bg-white w-full p-6 rounded-3xl text-[var(--color-primary)] border border-[#949492]">
-						<div className="flex flex-row justify-between items-center text-[24px] font-semiBold pb-4 border-b border-[#949492] hover:scale-105"> <span><FontAwesomeIcon icon={faUser} /> Editar Perfil </span> <FontAwesomeIcon icon={faChevronRight} /></div>
-						<div className="flex flex-row justify-between items-center text-[24px] font-semiBold pb-4 border-b border-[#949492] hover:scale-105"> <span><FontAwesomeIcon icon={faHeart} /> Favoritos </span> <FontAwesomeIcon icon={faChevronRight} /></div>
-						<div className="flex flex-row justify-between items-center text-[24px] font-semiBold hover:scale-105"> <span><FontAwesomeIcon icon={faStar} /> Mis Reseñas </span> <FontAwesomeIcon icon={faChevronRight} /></div>
+					<ProfileItem icon={faUser} label="Editar Perfil" />
+					<ProfileItem icon={faHeart} label="Favoritos" />
+					<ProfileItem icon={faStar} label="Mis reseñas" />
 				</div>
 				<div className="flex flex-col gap-6 bg-white w-full p-6 rounded-3xl text-[var(--color-primary)] border border-[#949492]">
-						<div className="flex flex-row justify-between items-center text-[24px] font-semiBold pb-4 border-b border-[#949492] hover:scale-105"><span> <FontAwesomeIcon icon={faCalendar} /> Historial de servicios</span> <FontAwesomeIcon icon={faChevronRight} /></div>
-						<div className="flex flex-row justify-between items-center text-[24px] font-semiBold pb-4 border-b border-[#949492] hover:scale-105"><span><FontAwesomeIcon icon={faBell} /> Notificaciones </span><FontAwesomeIcon icon={faChevronRight} /> </div>
-						<div className="flex flex-row justify-between items-center text-[24px] font-semiBold hover:scale-105"><span><FontAwesomeIcon icon={faGear} /> Configuracion </span> <FontAwesomeIcon icon={faChevronRight} /></div>
+					<ProfileItem icon={faCalendar} label="Historial de servicios" />
+					<ProfileItem icon={faBell} label="Notificaciones" />
+					<ProfileItem icon={faGear} label="Configuración" />
 				</div>
 			</div>
 			{/* Este button probablemente sea un component "use client" */}
-			<button className="text-[20px] font-medium mt-4 px-4 py-1 bg-white rounded-lg border border-[#949492] hover:bg-[var(--color-bg-hover)]">Cerrar Sesión</button>
+			<button className="text-[20px] font-medium mt-4 px-4 py-1 bg-white rounded-lg border border-[#949492] hover:bg-[var(--color-background)]">Cerrar Sesión</button>
 		</main>
 	);
 }
