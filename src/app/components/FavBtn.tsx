@@ -16,11 +16,11 @@ export default function FavBtn() {
     return (
         <button
         onClick={toggleFav}
-        className="absolute top-2 right-2 bg-white/80 px-2 py-1 rounded-full text-sm font-medium hover:scale-105 transition-transform"
+        className="absolute top-2 right-2 bg-white/80 px-2 py-2 rounded-full text-sm font-medium hover:scale-105 transition-transform"
         >
         <FontAwesomeIcon
             icon={isFav ? solidHeart : regularHeart}
-            className={isFav ? "text-red-500" : "text-gray-500"}
+            className={isFav ? "text-red-500 text-sm md:text-base" : "text-gray-500 text-sm md:text-base"} style={{ width: "1rem", height: "1rem" }}
         />
         </button>
     );

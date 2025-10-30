@@ -1,6 +1,6 @@
 import ServiceCard from "@/app/components/ServiceCard";
 
-
+import { Nunito } from "next/font/google";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faStar, faClock, faTag, faDollarSign } from "@fortawesome/free-solid-svg-icons";
 
@@ -82,16 +82,16 @@ export default function PageServices() {
             max-w-[1300px] mx-auto
         "
         >
-        <h1 className="font-bold text-[var(--color-primary)] text-5xl mt-10 text-center md:text-left">
+        <h1 className="font-bold text-[var(--color-primary)] text-[48px] mt-10 text-center md:text-left">
             Servicios
         </h1>
 
         {/* Barra superior con búsqueda */}
         <div className="w-full bg-[var(--color-primary)] rounded-2xl py-4 mt-6 flex flex-col items-start">
-            <h4 className="mx-4 text-white text-2xl font-semibold text-center md:text-left">
+            <h4 className="mx-4 text-white text-[36px] font-semiBold text-center md:text-left">
             Encuentra tu servicio de belleza ideal
             </h4>
-            <span className="m-4 text-md text-white text-center md:text-left">
+            <span className="mx-4 text-[20px] font-medium text-white text-center md:text-left">
             Profesionales certificados a tu domicilio
             </span>
 
@@ -100,8 +100,9 @@ export default function PageServices() {
             className="
                 flex flex-col lg:flex-row 
                 justify-around items-center 
-                gap-4 bg-white p-4 
-                rounded-3xl m-4 max-w-[900px] mx-auto
+                gap-4 bg-white px-4 py-2
+                rounded-3xl mt-8 ml-4 max-w-[90%] min-w-[90%] sm:max-w-[98%]
+                
             "
             >
             {/* Servicio */}
@@ -145,7 +146,7 @@ export default function PageServices() {
             {/* Botón buscar */}
             <button
                 type="button"
-                className="bg-[var(--color-primary)] rounded-full w-[40px] h-[40px] hover:bg-[var(--color-primary-hover)] flex items-center justify-center text-white text-lg mt-2 md:mt-0"
+                className="bg-[var(--color-primary)] rounded-full p-2 hover:bg-[var(--color-primary-hover)] flex items-center justify-center text-white text-lg mt-2 md:mt-0"
             >
                 <FontAwesomeIcon icon={faSearch} />
             </button>
@@ -153,20 +154,20 @@ export default function PageServices() {
         </div>
 
         {/* Filtros */}
-        <span className="text-black/30 mt-5">
+        <span className="text-[#949492] mt-5">
             Filtra por:
-            <ul className="flex flex-col lg:flex-row text-black font-semibold gap-2 p-2 rounded-lg mb-4 mx-4">
+            <ul className="flex flex-col lg:flex-row text-black font-semibold gap-2 rounded-lg mb-4">
             <li className="max-w-[250px] border border-black/10 rounded-2xl px-4 py-2 hover:bg-black/5">
-                <FontAwesomeIcon icon={faDollarSign} /> Menor precio
+                <FontAwesomeIcon icon={faDollarSign}   className="text-sm md:text-base" style={{ width: "1rem", height: "1rem" }} /> Menor precio
             </li>
             <li className="max-w-[250px] border border-black/10 rounded-2xl px-4 py-2 hover:bg-black/5">
-                <FontAwesomeIcon icon={faStar} /> Mejor Valorado
+                <FontAwesomeIcon icon={faStar}   className="text-sm md:text-base" style={{ width: "1rem", height: "1rem" }} /> Mejor Valorado
             </li>
             <li className="max-w-[250px] border border-black/10 rounded-2xl px-4 py-2 hover:bg-black/5">
-                <FontAwesomeIcon icon={faClock} /> Menor Duración
+                <FontAwesomeIcon icon={faClock}   className="text-sm md:text-base" style={{ width: "1rem", height: "1rem" }} /> Menor Duración
             </li>
             <li className="max-w-[250px] border border-black/10 rounded-2xl px-4 py-2 hover:bg-black/5">
-                <FontAwesomeIcon icon={faTag} /> Categoría
+                <FontAwesomeIcon icon={faTag}   className="text-sm md:text-base" style={{ width: "1rem", height: "1rem" }} /> Categoría
             </li>
             </ul>
         </span>
@@ -174,7 +175,7 @@ export default function PageServices() {
         {/* Cards */}
         <div>
             <span className="text-black/30 mt-5">128 servicios disponibles</span>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-cols-4 justify-items-center gap-4 mt-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-4 mt-4">
             {services.map((service) => (
                 <ServiceCard
                 key={service.id}
