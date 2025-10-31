@@ -1,7 +1,10 @@
 
+/*-- Componentes --*/
+import ProfileItem from "@/app/components/ProfileItem";
+
+/*-- iconos --*/
 import { faBell, faCalendar, faHeart, faStar, faUser } from "@fortawesome/free-regular-svg-icons";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
-import ProfileItem from "@/app/components/ProfileItem";
 
 export default function ProfilePage() {
 
