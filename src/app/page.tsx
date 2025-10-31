@@ -28,12 +28,14 @@ const servicesData = [
 	},
 	{
 		title: "Peinado",
-		description: "Alisados, ondas y recogidos con técnicas de última tendencia.",
+		description:
+			"Alisados, ondas y recogidos con técnicas de última tendencia.",
 		image: "/peinado.png",
 	},
 	{
 		title: "Manicura",
-		description: "Diseños personalizados y cuidado profesional de tus manos.",
+		description:
+			"Diseños personalizados y cuidado profesional de tus manos.",
 		image: "/manicura.jpg",
 	},
 	{
@@ -48,17 +50,20 @@ const servicesData = [
 	},
 	{
 		title: "Cejas",
-		description: "Diseño, laminado y microblading para una mirada impactante.",
+		description:
+			"Diseño, laminado y microblading para una mirada impactante.",
 		image: "/cejas.png",
 	},
 	{
 		title: "Pestañas",
-		description: "Extensiones, lifting y tintura para mayor volumen y longitud.",
+		description:
+			"Extensiones, lifting y tintura para mayor volumen y longitud.",
 		image: "/pestañas.webp",
 	},
 	{
 		title: "Limpieza Facial",
-		description: "Rutinas de hidratación y purificación profunda para un rostro radiante.",
+		description:
+			"Rutinas de hidratación y purificación profunda para un rostro radiante.",
 		image: "/cuidado de la piel.webp",
 	},
 ];
@@ -95,7 +100,8 @@ export default function HomePage() {
 							donde estés
 						</h1>
 						<p className="mt-5 text-lg md:text-xl text-white/90">
-							Reserva en minutos y recibe especialistas certificados en tu domicilio.
+							Reserva en minutos y recibe especialistas
+							certificados en tu domicilio.
 						</p>
 						<div className="mt-8">
 							<Link
@@ -110,10 +116,7 @@ export default function HomePage() {
 			</section>
 
 			{/* SERVICIOS */}
-			<section
-				id="services"
-				className="py-20 md:py-24 bg-bg-light"
-			>
+			<section id="services" className="py-20 md:py-24 bg-bg-light">
 				<div className="max-w-7xl mx-auto px-6 text-center">
 					<motion.h2
 						initial={fadeUp.initial}
@@ -161,22 +164,38 @@ export default function HomePage() {
 						transition={{ ...fadeUp.transition, delay: 0.05 }}
 						className="text-lg text-text-muted mb-14 max-w-2xl mx-auto"
 					>
-						Belleza profesional en tus términos. Sin traslados ni esperas.
+						Belleza profesional en tus términos. Sin traslados ni
+						esperas.
 					</motion.p>
 
 					<div className="grid md:grid-cols-3 gap-8 md:gap-10">
 						<FeatureCard
-							icon={<Clock className="w-7 h-7" color="var(--color-accent)" />}
+							icon={
+								<Clock
+									className="w-7 h-7"
+									color="var(--color-accent)"
+								/>
+							}
 							title="Ahorro de tiempo"
 							text="Reservá y recibí el servicio en tu casa, oficina o donde elijas."
 						/>
 						<FeatureCard
-							icon={<ShieldCheck className="w-7 h-7" color="var(--color-accent)" />}
+							icon={
+								<ShieldCheck
+									className="w-7 h-7"
+									color="var(--color-accent)"
+								/>
+							}
 							title="Especialistas verificados"
 							text="Profesionales con experiencia, certificados y valorados por la comunidad."
 						/>
 						<FeatureCard
-							icon={<DollarSign className="w-7 h-7" color="var(--color-accent)" />}
+							icon={
+								<DollarSign
+									className="w-7 h-7"
+									color="var(--color-accent)"
+								/>
+							}
 							title="Precios transparentes"
 							text="Tarifas claras y confirmadas antes de reservar."
 						/>
@@ -203,22 +222,38 @@ export default function HomePage() {
 						transition={{ ...fadeUp.transition, delay: 0.05 }}
 						className="text-lg text-text-muted mb-14 max-w-2xl mx-auto"
 					>
-						Hacé crecer tu cartera de clientes y gestioná tu agenda con herramientas simples y efectivas.
+						Haz crecer tu cartera de clientes y gestiona tu agenda
+						con herramientas simples y efectivas.
 					</motion.p>
 
 					<div className="grid md:grid-cols-3 gap-8 md:gap-10">
 						<FeatureCard
-							icon={<Users className="w-7 h-7" color="var(--color-accent)" />}
+							icon={
+								<Users
+									className="w-7 h-7"
+									color="var(--color-accent)"
+								/>
+							}
 							title="Más visibilidad"
-							text="Accedé a una audiencia activa cerca de tu ubicación."
+							text="Accede a una audiencia activa cerca de tu ubicación."
 						/>
 						<FeatureCard
-							icon={<CalendarCheck className="w-7 h-7" color="var(--color-accent)" />}
+							icon={
+								<CalendarCheck
+									className="w-7 h-7"
+									color="var(--color-accent)"
+								/>
+							}
 							title="Gestión simplificada"
-							text="Organizá citas, pagos y servicios desde un mismo lugar."
+							text="Organiza citas, pagos y servicios desde un mismo lugar."
 						/>
 						<FeatureCard
-							icon={<TrendingUp className="w-7 h-7" color="var(--color-accent)" />}
+							icon={
+								<TrendingUp
+									className="w-7 h-7"
+									color="var(--color-accent)"
+								/>
+							}
 							title="Impulso a tu negocio"
 							text="Mayores ingresos con flexibilidad horaria y mejor planificación."
 						/>
@@ -277,7 +312,8 @@ export default function HomePage() {
 						transition={{ ...fadeUp.transition, delay: 0.05 }}
 						className="text-lg md:text-xl mb-10 text-white/90"
 					>
-						Unite a la plataforma que está transformando los servicios de belleza a domicilio.
+						Únete a la plataforma que está transformando los
+						servicios de belleza a domicilio.
 					</motion.p>
 					<div className="flex justify-center gap-4 md:gap-6 flex-wrap">
 						<Link
@@ -337,9 +373,7 @@ function FeatureCard({ icon, title, text }: any) {
 			>
 				{icon}
 			</div>
-			<h3 className="font-bold text-xl mb-2 text-primary">
-				{title}
-			</h3>
+			<h3 className="font-bold text-xl mb-2 text-primary">{title}</h3>
 			<p className="text-base text-text-muted">{text}</p>
 		</motion.div>
 	);
@@ -359,9 +393,7 @@ function TestimonialCard({ name, role, text }: any) {
 				<div className="w-10 h-10 rounded-full bg-gray-200" />
 				<div>
 					<p className="font-semibold text-gray-900">{name}</p>
-					<p className="text-sm text-text-muted">
-						{role}
-					</p>
+					<p className="text-sm text-text-muted">{role}</p>
 				</div>
 			</div>
 		</motion.div>

@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export function Footer() {
 	return (
-		<footer className="bg-primary text-text-muted pt-16 pb-12 text-sm border-t border-white/20">
+		<footer className="bg-primary text-white pt-16 pb-12 text-sm border-t border-white/20">
 			<div className="max-w-6xl mx-auto px-6 grid md:grid-cols-4 gap-12">
 				{/* Logo + descripción */}
 				<div className="space-y-4">
@@ -70,15 +70,15 @@ export function Footer() {
 						Contacto
 					</Link>
 					<ul className="space-y-3">
-						<li className="flex items-center">
+						<li className="flex items-center text-text-muted">
 							<Mail className="w-4 h-4 mr-2 text-white/80" />
 							serviciosyaplicacion@gmail.com
 						</li>
-						<li className="flex items-center">
+						<li className="flex items-center text-text-muted">
 							<Phone className="w-4 h-4 mr-2 text-white/80" />
 							+54 9 11 5555 5555
 						</li>
-						<li className="flex items-center">
+						<li className="flex items-center text-text-muted">
 							<MapPin className="w-4 h-4 mr-2 text-white/80" />
 							Atención LATAM
 						</li>
