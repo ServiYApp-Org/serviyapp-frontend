@@ -12,6 +12,7 @@ import {
 	faBars,
 	faBell,
 } from "@fortawesome/free-solid-svg-icons";
+import { useAuthStore } from "@/app/store/auth.store";
 
 export default function Sidebar({
 	isCollapsed,
@@ -21,14 +22,93 @@ export default function Sidebar({
 	setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
 	const pathname = usePathname();
+	const { role } = useAuthStore();
 
-	const menuItems = [
-		{ icon: faHome, label: "Inicio", href: "/home" },
-		{ icon: faSearch, label: "Servicios", href: "/services" },
-		{ icon: faCalendar, label: "Reservas", href: "/appointments" },
-		{ icon: faCommentDots, label: "Mensajes", href: "/messages" },
-		{ icon: faUser, label: "Perfil", href: "/profile" },
-	];
+	// ✅ Función que devuelve el prefijo según el rol
+	const getBasePath = () => {
+		if (role === "admin") return "/admin";
+		if (role === "provider") return "/provider";
+		return "/user";
+	};
+
+	const basePath = getBasePath();
+
+	// ✅ Menú dinámico según rol
+	const menuItems =
+		role === "admin"
+			? [
+					{
+						icon: faHome,
+						label: "Inicio",
+						href: `${basePath}/dashboard`,
+					},
+					{
+						icon: faCalendar,
+						label: "Citas",
+						href: `${basePath}/appointments`,
+					},
+					{
+						icon: faSearch,
+						label: "Servicios",
+						href: `${basePath}/services`,
+					},
+					{
+						icon: faUser,
+						label: "Usuarios",
+						href: `${basePath}/profile`,
+					},
+			  ]
+			: role === "provider"
+			? [
+					{
+						icon: faHome,
+						label: "Inicio",
+						href: `${basePath}/dashboard`,
+					},
+					{
+						icon: faCalendar,
+						label: "Citas",
+						href: `${basePath}/appointments`,
+					},
+					{
+						icon: faCommentDots,
+						label: "Mensajes",
+						href: `${basePath}/messages`,
+					},
+					{
+						icon: faSearch,
+						label: "Servicios",
+						href: `${basePath}/services`,
+					},
+					{
+						icon: faUser,
+						label: "Perfil",
+						href: `${basePath}/profile`,
+					},
+			  ]
+			: [
+					{ icon: faHome, label: "Inicio", href: `${basePath}/home` },
+					{
+						icon: faSearch,
+						label: "Servicios",
+						href: `${basePath}/services`,
+					},
+					{
+						icon: faCalendar,
+						label: "Reservas",
+						href: `${basePath}/appointments`,
+					},
+					{
+						icon: faCommentDots,
+						label: "Mensajes",
+						href: `${basePath}/messages`,
+					},
+					{
+						icon: faUser,
+						label: "Perfil",
+						href: `${basePath}/profile`,
+					},
+			  ];
 
 	return (
 		<>
@@ -40,7 +120,7 @@ export default function Sidebar({
 					width: isCollapsed ? "4.5rem" : "13rem",
 				}}
 			>
-				{/* Sección del Logo */}
+				{/* Logo */}
 				<div>
 					<div
 						className="flex items-center gap-4 px-6 py-6 border-b"
@@ -60,7 +140,7 @@ export default function Sidebar({
 						</span>
 					</div>
 
-					{/* Menú principal */}
+					{/* Menú */}
 					<nav className="mt-8 flex flex-col items-start relative">
 						{menuItems.map((item) => {
 							const active = pathname === item.href;
@@ -69,12 +149,9 @@ export default function Sidebar({
 									key={item.label}
 									className="relative group w-full"
 								>
-									{/* Indicador activo */}
 									{active && (
 										<div className="absolute left-0 top-0 h-full w-[3px] rounded-l bg-white" />
 									)}
-
-									{/* Link principal */}
 									<Link
 										href={item.href}
 										className={`flex items-center px-6 py-2.5 w-full text-sm font-medium rounded-md transition-all duration-300 ${
@@ -119,7 +196,7 @@ export default function Sidebar({
 										</span>
 									</Link>
 
-									{/* Tooltip (solo visible si está colapsado) */}
+									{/* Tooltip */}
 									{isCollapsed && (
 										<span
 											className="absolute left-18 top-1/2 -translate-y-1/2 px-3 py-1 text-xs rounded-md text-white opacity-0 group-hover:opacity-100 transition-all duration-300"
@@ -158,7 +235,6 @@ export default function Sidebar({
 							}
 							aria-label="Notificaciones"
 						>
-							{/* Ícono con badge */}
 							<div className="relative w-6 flex justify-center">
 								<FontAwesomeIcon
 									icon={faBell}
@@ -168,14 +244,11 @@ export default function Sidebar({
 										height: "1.25rem",
 									}}
 								/>
-								{/* Badge rojo */}
 								<span className="absolute -top-1 -right-1 bg-red-500 text-white text-[0.6rem] font-semibold rounded-full h-4 w-4 flex items-center justify-center">
 									3
 								</span>
 							</div>
 						</button>
-
-						{/* Tooltip (solo cuando está colapsado) */}
 						{isCollapsed && (
 							<span
 								className="absolute left-18 top-1/2 -translate-y-1/2 px-3 py-1 text-xs rounded-md text-white opacity-0 group-hover:opacity-100 transition-all duration-300"
@@ -190,7 +263,7 @@ export default function Sidebar({
 						)}
 					</div>
 
-					{/* Control colapsar/expandir */}
+					{/* Botón colapsar */}
 					<div className="relative group">
 						<div
 							className="flex items-center justify-between px-6 py-3 transition-all duration-300"
@@ -267,38 +340,7 @@ export default function Sidebar({
 				</div>
 			</aside>
 
-			{/* ===== TOPBAR (Mobile) ===== */}
-			<header className="fixed top-0 left-0 right-0 flex justify-between items-center px-4 py-2 bg-bg-light border-b border-bg-hover md:hidden z-50">
-				{/* Logo */}
-				<div className="flex items-center gap-2">
-					<div
-						className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold shrink-0"
-						style={{
-							backgroundColor: "var(--color-primary)",
-							color: "white",
-						}}
-					>
-						S
-					</div>
-					<span className="text-color-primary font-semibold text-base">
-						serviYApp
-					</span>
-				</div>
-
-				{/* Notificaciones*/}
-				<div className="relative">
-					<FontAwesomeIcon
-						icon={faBell}
-						className="text-primary-hover"
-						style={{ width: "1.3rem", height: "1.3rem" }}
-					/>
-					<span className="absolute -top-1 -right-1 bg-red-500 text-white text-[0.6rem] font-semibold rounded-full h-4 w-4 flex items-center justify-center">
-						3
-					</span>
-				</div>
-			</header>
-
-			{/* ===== NAVBAR inferior (Mobile) ===== */}
+			{/* ===== MOBILE NAV (inferior) ===== */}
 			<nav className="fixed bottom-0 left-0 right-0 bg-bg-light border-t border-bg-hover flex justify-around items-center py-2 shadow-sm md:hidden z-50">
 				{menuItems.map((item) => {
 					const active = pathname === item.href;

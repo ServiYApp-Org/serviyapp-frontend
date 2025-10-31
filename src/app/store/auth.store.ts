@@ -3,8 +3,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-
-export type Role = "provider" | "user";
+export type Role = "admin" | "provider" | "user"; // 👈 importante: incluye admin primero por orden lógico
 
 export interface User {
 	id: string;
@@ -39,12 +38,19 @@ export const useAuthStore = create<AuthState>()(
 				}),
 
 			clearAuth: () => {
-				set({ token: null, user: null, role: null });
+				set({
+					token: null,
+					role: null,
+					user: null,
+					isAuthenticated: false, // 👈 para limpiar también el flag
+				});
 				localStorage.removeItem("access_token");
 				localStorage.removeItem("provider_id");
 				localStorage.removeItem("user_role");
 			},
 		}),
-		{ name: "serviyapp-auth" }
+		{
+			name: "serviyapp-auth", // 👈 clave única en localStorage
+		}
 	)
 );
