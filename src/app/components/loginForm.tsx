@@ -1,25 +1,96 @@
 "use client";
 
 import * as Yup from "yup";
+import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-// Esquema de validación con Yup
+import { Api } from "@/app/services/api";
+import { useAuthStore } from "@/app/store/auth.store";
+
+type Role = "provider" | "user";
+
+interface LoginFormProps {
+	role: Role;
+}
+
 const loginSchema = Yup.object().shape({
 	email: Yup.string()
-		.email("Correo formato del electrónico no es válido.")
+		.email("El formato del correo electrónico no es válido.")
 		.required("El correo electrónico es obligatorio."),
 	password: Yup.string().required("La contraseña es obligatoria."),
 });
 
-export default function LoginForm() {
+export default function LoginForm({ role }: LoginFormProps) {
+	const router = useRouter();
+	const setAuth = useAuthStore((s) => s.setAuth);
+
+	const handleSubmit = async (values: {
+		email: string;
+		password: string;
+	}) => {
+		try {
+			// Endpoint ajustado
+			const endpoint =
+				role === "provider"
+					? "/auth/login/provider"
+					: "/auth/login/user";
+
+			const { data } = await Api.post(endpoint, values);
+
+			// Guardar sesión en Zustand
+			setAuth({
+				token: data.access_token,
+				role,
+				user: data.provider || data.user,
+			});
+
+			toast.success("Inicio de sesión exitoso", { autoClose: 2000 });
+
+			setTimeout(() => {
+				// 🔹 Si es proveedor
+				if (role === "provider") {
+					router.push("/provider/dashboard");
+					return;
+				}
+
+				// 🔹 Si es usuario
+				if (role === "user") {
+					const userRole = data.user?.role?.toLowerCase();
+
+					if (userRole === "admin") router.push("/admin/dashboard");
+					else router.push("/user/home");
+
+					return;
+				}
+			}, 2000);
+		} catch (error: any) {
+			console.error(error);
+			const msg =
+				error?.response?.data?.message ||
+				"Credenciales incorrectas o error en el servidor.";
+			toast.error(msg, { autoClose: 2500 });
+		}
+	};
+
+	const handleGoogle = () => {
+		const base = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+		const endpoint =
+			role === "provider" ? "/auth/google/provider" : "/auth/google/user";
+		window.location.href = `${base}${endpoint}`;
+	};
+
 	return (
 		<div
 			className="flex flex-col items-center justify-center min-h-screen px-4"
 			style={{ backgroundColor: "var(--background)" }}
 		>
+			<ToastContainer position="top-right" />
+
 			<div
 				className="w-full max-w-md rounded-2xl shadow-sm p-8 border"
 				style={{
@@ -33,22 +104,20 @@ export default function LoginForm() {
 				>
 					Inicio de Sesión
 				</h1>
+
 				<p
 					className="text-center mb-6 text-sm"
 					style={{ color: "var(--color-foreground)" }}
 				>
-					Inicia sesión para reservar servicios de belleza a domicilio
+					{role === "provider"
+						? "Inicia sesión como prestador para gestionar tus servicios"
+						: "Inicia sesión para reservar servicios de belleza a domicilio"}
 				</p>
 
 				<Formik
-					initialValues={{
-						email: "",
-						password: "",
-					}}
+					initialValues={{ email: "", password: "" }}
 					validationSchema={loginSchema}
-					onSubmit={(values) =>
-						console.log("Formulario válido:", values)
-					}
+					onSubmit={handleSubmit}
 				>
 					<Form className="space-y-4">
 						{/* Correo */}
@@ -88,6 +157,7 @@ export default function LoginForm() {
 								className="text-red-500 text-xs mt-1"
 							/>
 						</div>
+
 						<a
 							href="/forgot-password"
 							className="block text-right text-sm font-medium hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 rounded"
@@ -118,6 +188,7 @@ export default function LoginForm() {
 						{/* Google */}
 						<button
 							type="button"
+							onClick={handleGoogle}
 							className="w-full flex items-center justify-center gap-2 font-medium py-2 rounded-lg border transition-colors"
 							style={{
 								borderColor: "var(--color-primary)",
@@ -125,10 +196,7 @@ export default function LoginForm() {
 								color: "var(--color-primary)",
 							}}
 						>
-							<FontAwesomeIcon
-								icon={faGoogle}
-								className="fa-icon"
-							/>
+							<FontAwesomeIcon icon={faGoogle} />
 							Iniciar Sesión con Google
 						</button>
 					</Form>
