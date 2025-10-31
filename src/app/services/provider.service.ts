@@ -23,3 +23,4 @@ export const registerProvider = async (payload: any) => {
 	const { data } = await Api.post("/auth/register/provider", payload);
 	return data;
 };
+
