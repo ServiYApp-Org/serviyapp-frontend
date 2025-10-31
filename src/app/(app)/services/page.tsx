@@ -73,16 +73,26 @@ const services = [
     },
 ]
 
+export interface Service {
+    id: string;
+    name: string;
+    photo?: string;
+    provider: string;
+    duration: number;
+    rating: number;
+    price: number;
+    category: string;
+}
+
 export default async function PageServices() {
 
-    // const fetchServices = await axios.get('http://localhost:3000/services/find-all')
-    // .then(res => console.log(res.data))
-    // .catch(err => console.error(err));
-
+    console.log("Antes");
     
+    const fetchServices = await axios.get('http://localhost:3000/services/find-all')
 
+    const services: Service[] = fetchServices.data;
 
-
+    console.log(services);
     return (
         <main
         className="
@@ -128,7 +138,7 @@ export default async function PageServices() {
         <div>
             <span className="text-black/30 mt-5">128 servicios disponibles</span>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-4 mt-4">
-            {services.map((service) => (
+            {services.map((service: Service) => (
                 <ServiceCard
                 key={service.id}
                 id ={service.id}

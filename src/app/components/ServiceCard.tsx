@@ -4,12 +4,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faClock, faTag } from "@fortawesome/free-solid-svg-icons";
 import FavBtn from "./FavBtn";
 import SeeMoreBtn from "./SeeMoreBtn";
+import { Service } from "../(app)/services/page";
 
 
 
 
 
-export default function ServiceCard({ id, photo, name, provider, category, duration, rating, price }: { id: number, category: string, photo: string; name: string; provider: string; duration: string; rating: string; price: number }) {
+export default function ServiceCard({ id, photo, name, provider, category, duration, rating, price }: Service) {
     return (
         <div className="flex flex-col w-full max-w-[330px] h-[440px] border border-[#949492] rounded-lg hover:scale-105 transition-transform hover:shadow-lg bg-white">
                 <div className="relative h-[60%]">

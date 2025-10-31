@@ -4,83 +4,16 @@ import Link from "next/link";
 
 import { FontAwesomeIcon,  } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faStar } from "@fortawesome/free-solid-svg-icons";
-
-const services = [
-    {
-        id: 1,
-        name: "Uñas Acrilicas",
-        photo: "https://img.freepik.com/foto-gratis/manicurista-cerca-esmalte-unas_23-2149171334.jpg?semt=ais_hybrid&w=740&q=80",
-        provider: "Ariadna Ramirez",
-        duration: "1:30 hr",
-        rating: 4.5,
-        price: 500,
-        category: "Uñas",
-        description: "Servicio de uñas acrílicas con diseño personalizado."
-    },
-    {
-        id: 2,
-        name: "Corte de Cabello",
-        photo: "https://img.freepik.com/foto-gratis/manicurista-cerca-esmalte-unas_23-2149171334.jpg?semt=ais_hybrid&w=740&q=80",
-        provider: "Stefano Masotti",
-        duration: "1:30 hr",
-        rating: 4.0,
-        price: 5.000,
-        category: "Cabello",
-        description: "Corte de cabello moderno y estilizado."
-    },
-    {
-        id: 3,
-        name: "Limpieza Facial",
-        photo: "https://img.freepik.com/foto-gratis/manicurista-cerca-esmalte-unas_23-2149171334.jpg?semt=ais_hybrid&w=740&q=80",
-        provider: "Florencia Bustos",
-        duration: "2:00 hr",
-        rating: 4.8,
-        price: 8000,
-        category: "Spa",
-        description: "Limpieza facial profunda para una piel radiante."
-    },
-        {
-        id: 4,
-        name: "Uñas Acrilicas",
-        photo: "https://img.freepik.com/foto-gratis/manicurista-cerca-esmalte-unas_23-2149171334.jpg?semt=ais_hybrid&w=740&q=80",
-        provider: "Ariadna Ramirez",
-        duration: "1:30 hr",
-        rating: 4.5,
-        price: 500,
-        category: "Uñas",
-        description: "Servicio de uñas acrílicas con diseño personalizado."
-    },
-    {
-        id: 5,
-        name: "Corte de Cabello",
-        photo: "https://img.freepik.com/foto-gratis/manicurista-cerca-esmalte-unas_23-2149171334.jpg?semt=ais_hybrid&w=740&q=80",
-        provider: "Stefano Masotti",
-        duration: "1:30 hr",
-        rating: 4.0,
-        price: 5.000,
-        category: "Cabello",
-        description: "Corte de cabello moderno y estilizado."
-    },
-    {
-        id: 6,
-        name: "Limpieza Facial",
-        photo: "https://img.freepik.com/foto-gratis/manicurista-cerca-esmalte-unas_23-2149171334.jpg?semt=ais_hybrid&w=740&q=80",
-        provider: "Florencia Bustos",
-        duration: "2:00 hr",
-        rating: 4.8,
-        price: 8000,
-        category: "Spa",
-        description: "Limpieza facial profunda para una piel radiante."
-    },
-]
-
+import axios from "axios";
 
 
 export default async function ServiceDetailPage({ params }: { params: { id: string } }) {
+
+    const { id } =  await params;
     
-    const { id } = await params;
-    
-    const service = services.find(service => service.id === parseInt(id));
+    const fetchedData = await axios.get(`http://localhost:3000/services/find/${id}`);
+    const service = fetchedData.data;
+
 
     if (!service) {
         return (
@@ -108,17 +41,17 @@ export default async function ServiceDetailPage({ params }: { params: { id: stri
                 />
                 </div>
                 <div className="flex flex-col items-start h-full">
-                    <div className="flex items-center gap-2 mb-2 text-[var(--color-primary)]">
-                    <h2 className="text-4xl font-bold text-[var(--color-primary)]">{service.name}</h2>
-                    <span className="flex justify-center items-center font-bold bg-gray-200 px-2 py-1 rounded-lg">
-                        {service.rating}
-                        <FontAwesomeIcon
-                        icon={faStar}
-                        className="ml-1 text-sm md:text-base"
-                        style={{ width: "1rem", height: "1rem" }}
-                        />
-                    </span>
-                </div>
+                    <div className="flex justify-between items-center gap-2 mb-2 text-[var(--color-primary)]">
+                        <h2 className="text-4xl font-bold text-[var(--color-primary)]">{service.name}</h2>
+                        <span className="flex justify-center items-center font-bold bg-gray-200 px-2 py-1 rounded-lg">
+                            {service.rating}
+                            <FontAwesomeIcon
+                            icon={faStar}
+                            className="ml-1 text-sm md:text-base"
+                            style={{ width: "1rem", height: "1rem" }}
+                            />
+                        </span>
+                    </div>
                     <p className="text-lg text-black max-w-[600px] mb-4">
                         {service.description}
                     </p>
