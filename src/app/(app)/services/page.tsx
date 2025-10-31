@@ -2,11 +2,13 @@
 /*-- Componentes --*/
 import ServiceCard from "@/app/components/ServiceCard";
 import SearchBar from "@/app/components/SearchBar";
+import axios from "axios";
 
 /*-- Iconos --*/
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faClock, faTag, faDollarSign } from "@fortawesome/free-solid-svg-icons";
 import FilterTag from "@/app/components/FilterTag";
+import Link from "next/link";
 
 const services = [
     {
@@ -71,7 +73,14 @@ const services = [
     },
 ]
 
-export default function PageServices() {
+export default async function PageServices() {
+
+    // const fetchServices = await axios.get('http://localhost:3000/services/find-all')
+    // .then(res => console.log(res.data))
+    // .catch(err => console.error(err));
+
+    
+
 
 
     return (
