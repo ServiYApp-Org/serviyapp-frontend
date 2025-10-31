@@ -1,9 +1,12 @@
+
+/*-- Componentes --*/
 import ServiceCard from "@/app/components/ServiceCard";
+import SearchBar from "@/app/components/SearchBar";
 
-import { Nunito } from "next/font/google";
+/*-- Iconos --*/
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faStar, faClock, faTag, faDollarSign } from "@fortawesome/free-solid-svg-icons";
-
+import { faStar, faClock, faTag, faDollarSign } from "@fortawesome/free-solid-svg-icons";
+import FilterTag from "@/app/components/FilterTag";
 
 const services = [
     {
@@ -12,7 +15,7 @@ const services = [
         photo: "https://img.freepik.com/foto-gratis/manicurista-cerca-esmalte-unas_23-2149171334.jpg?semt=ais_hybrid&w=740&q=80",
         provider: "Ariadna Ramirez",
         duration: "1:30 hr",
-        rating: 4.5,
+        rating: "4.5",
         price: 500,
         category: "Uñas",
     },
@@ -22,7 +25,7 @@ const services = [
         photo: "https://img.freepik.com/foto-gratis/manicurista-cerca-esmalte-unas_23-2149171334.jpg?semt=ais_hybrid&w=740&q=80",
         provider: "Stefano Masotti",
         duration: "1:30 hr",
-        rating: 4.0,
+        rating: "4.0",
         price: 5.000,
         category: "Cabello",
     },
@@ -32,7 +35,7 @@ const services = [
         photo: "https://img.freepik.com/foto-gratis/manicurista-cerca-esmalte-unas_23-2149171334.jpg?semt=ais_hybrid&w=740&q=80",
         provider: "Florencia Bustos",
         duration: "2:00 hr",
-        rating: 4.8,
+        rating: "4.8",
         price: 8000,
         category: "Spa",
     },
@@ -42,7 +45,7 @@ const services = [
         photo: "https://img.freepik.com/foto-gratis/manicurista-cerca-esmalte-unas_23-2149171334.jpg?semt=ais_hybrid&w=740&q=80",
         provider: "Ariadna Ramirez",
         duration: "1:30 hr",
-        rating: 4.5,
+        rating: "4.5",
         price: 500,
         category: "Uñas",
     },
@@ -52,7 +55,7 @@ const services = [
         photo: "https://img.freepik.com/foto-gratis/manicurista-cerca-esmalte-unas_23-2149171334.jpg?semt=ais_hybrid&w=740&q=80",
         provider: "Stefano Masotti",
         duration: "1:30 hr",
-        rating: 4.0,
+        rating: "4.0",
         price: 5.000,
         category: "Cabello",
     },
@@ -62,13 +65,15 @@ const services = [
         photo: "https://img.freepik.com/foto-gratis/manicurista-cerca-esmalte-unas_23-2149171334.jpg?semt=ais_hybrid&w=740&q=80",
         provider: "Florencia Bustos",
         duration: "2:00 hr",
-        rating: 4.8,
+        rating: "4.8",
         price: 8000,
         category: "Spa",
     },
 ]
 
 export default function PageServices() {
+
+
     return (
         <main
         className="
@@ -86,7 +91,7 @@ export default function PageServices() {
             Servicios
         </h1>
 
-        {/* Barra superior con búsqueda */}
+        {/* Contenedor de Barra superior con búsqueda */}
         <div className="w-full bg-[var(--color-primary)] rounded-2xl py-4 mt-6 flex flex-col items-start">
             <h4 className="mx-4 text-white text-[36px] font-semiBold text-center md:text-left">
             Encuentra tu servicio de belleza ideal
@@ -96,79 +101,17 @@ export default function PageServices() {
             </span>
 
             {/* Barra de búsqueda */}
-            <form
-            className="
-                flex flex-col lg:flex-row 
-                justify-around items-center 
-                gap-4 bg-white px-4 py-2
-                rounded-3xl mt-8 ml-4 max-w-[90%] min-w-[90%] sm:max-w-[98%]
-                
-            "
-            >
-            {/* Servicio */}
-            <div className="flex flex-col text-black px-3 w-full lg:w-auto">
-                <label className="text-sm font-medium">Servicio</label>
-                <input
-                type="text"
-                placeholder="Escribe el servicio"
-                className="text-black/70 text-sm focus:outline-none placeholder:text-black/40 border-b border-black/10 lg:border-none"
-                />
-            </div>
-
-            {/* Provincia */}
-            <div className="flex flex-col text-black px-3 w-full lg:w-auto lg:border-l md:border-black/10">
-                <label className="text-sm font-medium">Provincia o Estado</label>
-                <select className="text-black/70 text-sm focus:outline-none border-b border-black/10 lg:border-none">
-                <option value="">Selecciona una provincia</option>
-                <option value="buenosaires">Buenos Aires</option>
-                <option value="cordoba">Córdoba</option>
-                <option value="santafe">Santa Fe</option>
-                </select>
-            </div>
-
-            {/* Ciudad */}
-            <div className="flex flex-col text-black px-3 w-full lg:w-auto lg:border-l md:border-black/10">
-                <label className="text-sm font-medium">Ciudad</label>
-                <select className="text-black/70 text-sm focus:outline-none border-b border-black/10 lg:border-none">
-                <option value="">Selecciona una ciudad</option>
-                </select>
-            </div>
-
-            {/* Fecha */}
-            <div className="flex flex-col text-black px-3 w-full lg:w-auto lg:border-l md:border-black/10">
-                <label className="text-sm font-medium">Fecha</label>
-                <input
-                type="date"
-                className="text-black/70 text-sm focus:outline-none border-b border-black/10 lg:border-none"
-                />
-            </div>
-
-            {/* Botón buscar */}
-            <button
-                type="button"
-                className="bg-[var(--color-primary)] rounded-full p-2 hover:bg-[var(--color-primary-hover)] flex items-center justify-center text-white text-lg mt-2 md:mt-0"
-            >
-                <FontAwesomeIcon icon={faSearch} />
-            </button>
-            </form>
+            <SearchBar />
         </div>
 
         {/* Filtros */}
         <span className="text-[#949492] mt-5">
             Filtra por:
             <ul className="flex flex-col lg:flex-row text-black font-semibold gap-2 rounded-lg mb-4">
-            <li className="max-w-[250px] border border-black/10 rounded-2xl px-4 py-2 hover:bg-black/5">
-                <FontAwesomeIcon icon={faDollarSign}   className="text-sm md:text-base" style={{ width: "1rem", height: "1rem" }} /> Menor precio
-            </li>
-            <li className="max-w-[250px] border border-black/10 rounded-2xl px-4 py-2 hover:bg-black/5">
-                <FontAwesomeIcon icon={faStar}   className="text-sm md:text-base" style={{ width: "1rem", height: "1rem" }} /> Mejor Valorado
-            </li>
-            <li className="max-w-[250px] border border-black/10 rounded-2xl px-4 py-2 hover:bg-black/5">
-                <FontAwesomeIcon icon={faClock}   className="text-sm md:text-base" style={{ width: "1rem", height: "1rem" }} /> Menor Duración
-            </li>
-            <li className="max-w-[250px] border border-black/10 rounded-2xl px-4 py-2 hover:bg-black/5">
-                <FontAwesomeIcon icon={faTag}   className="text-sm md:text-base" style={{ width: "1rem", height: "1rem" }} /> Categoría
-            </li>
+                <FilterTag icon={faDollarSign} label="Menor Precio" />
+                <FilterTag icon={faStar} label="Mejore Valorado" />
+                <FilterTag icon={faClock} label="Menor Duracion" />
+                <FilterTag icon={faTag} label="Categoria" />
             </ul>
         </span>
 
