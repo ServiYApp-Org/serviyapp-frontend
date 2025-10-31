@@ -1,9 +1,5 @@
-import RegisterUserForm from "../components/registerUserForm";
+import RegisterUserForm from "../components/RegisterUserForm";
 
-export default function registerUser() {
-	return (
-		<div className="flex items-center justify-center min-h-screen ">
-			<RegisterUserForm />
-		</div>
-	);
+export default function RegisterUserPage() {
+  return <RegisterUserForm />;
 }

@@ -72,9 +72,13 @@ export default function CompleteRegister() {
 			const searchParams = new URLSearchParams(window.location.search);
 			const t = searchParams.get("token");
 			const id = searchParams.get("id");
+			const role = searchParams.get("role"); // ✅ agregado
 			if (t && id) {
 				localStorage.setItem("access_token", t);
 				localStorage.setItem("provider_id", id);
+			}
+			if (role) {
+				localStorage.setItem("user_role", role); // ✅ agregado
 			}
 		}
 	}, []);
@@ -175,15 +179,17 @@ export default function CompleteRegister() {
 							toast.success(
 								"¡Registro exitoso! Serás redirigido en breve..."
 							);
-							setTimeout(
-								() => router.push("/loginProvider"),
-								2000
-							);
+
+							setTimeout(() => {
+								// ✅ agregado: redirigir según rol
+								const role =
+									localStorage.getItem("user_role") ||
+									"provider";
+								if (role === "user") router.push("/user/home");
+								else router.push("/provider/home");
+							}, 2000);
 						} catch (error: any) {
-							console.error(
-								"Error completando perfil:",
-								error
-							);
+							console.error("Error completando perfil:", error);
 							if (error.response?.status === 409) {
 								Swal.fire({
 									icon: "error",
