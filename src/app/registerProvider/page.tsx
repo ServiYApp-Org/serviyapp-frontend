@@ -28,6 +28,7 @@ import {
 	getRegionsByCountry,
 	registerProvider,
 } from "../services/provider.service";
+import Swal from "sweetalert2";
 
 const registerSchema = Yup.object().shape({
 	names: Yup.string()
