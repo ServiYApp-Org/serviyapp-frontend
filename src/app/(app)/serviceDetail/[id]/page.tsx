@@ -5,25 +5,24 @@ import Link from "next/link";
 import { FontAwesomeIcon,  } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faStar } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { notFound } from "next/navigation";
+
 
 
 export default async function ServiceDetailPage({ params }: { params: { id: string } }) {
 
-    const { id } =  await params;
-    
-    const fetchedData = await axios.get(`http://localhost:3000/services/find/${id}`);
-    const service = fetchedData.data;
+    const { id } = await params;
+    let service;
+    try {
+        const fetchedData = await axios.get(`http://localhost:3000/services/find/${id}`)
+        service = fetchedData.data;
 
-
-    if (!service) {
-        return (
-            <main className="flex flex-col justify-center items-center gap-5">
-                <h1 className="font-bold text-[var(--color-primary)] text-5xl mt-10 text-center md:text-left" >Servicio no encontrado</h1>
-                <Link href="/services" className=" bg-[var(--foreground)] text-white p-3 rounded-lg hover:bg-[var(--color-accent)] hover:text-[var(--foreground)] hover:border transition">
-                    Volver a Servicios
-                </Link>
-            </main>
-        );
+        if (!service) {
+            notFound();
+        }
+    } catch (error) {
+        console.error("Error fetching service data:", error);
+        notFound();
     }
 
     return (

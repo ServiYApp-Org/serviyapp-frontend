@@ -9,69 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faClock, faTag, faDollarSign } from "@fortawesome/free-solid-svg-icons";
 import FilterTag from "@/app/components/FilterTag";
 import Link from "next/link";
-
-const services = [
-    {
-        id: 1,
-        name: "Uñas Acrilicas",
-        photo: "https://img.freepik.com/foto-gratis/manicurista-cerca-esmalte-unas_23-2149171334.jpg?semt=ais_hybrid&w=740&q=80",
-        provider: "Ariadna Ramirez",
-        duration: "1:30 hr",
-        rating: "4.5",
-        price: 500,
-        category: "Uñas",
-    },
-    {
-        id: 2,
-        name: "Corte de Cabello",
-        photo: "https://img.freepik.com/foto-gratis/manicurista-cerca-esmalte-unas_23-2149171334.jpg?semt=ais_hybrid&w=740&q=80",
-        provider: "Stefano Masotti",
-        duration: "1:30 hr",
-        rating: "4.0",
-        price: 5.000,
-        category: "Cabello",
-    },
-    {
-        id: 3,
-        name: "Limpieza Facial",
-        photo: "https://img.freepik.com/foto-gratis/manicurista-cerca-esmalte-unas_23-2149171334.jpg?semt=ais_hybrid&w=740&q=80",
-        provider: "Florencia Bustos",
-        duration: "2:00 hr",
-        rating: "4.8",
-        price: 8000,
-        category: "Spa",
-    },
-        {
-        id: 4,
-        name: "Uñas Acrilicas",
-        photo: "https://img.freepik.com/foto-gratis/manicurista-cerca-esmalte-unas_23-2149171334.jpg?semt=ais_hybrid&w=740&q=80",
-        provider: "Ariadna Ramirez",
-        duration: "1:30 hr",
-        rating: "4.5",
-        price: 500,
-        category: "Uñas",
-    },
-    {
-        id: 5,
-        name: "Corte de Cabello",
-        photo: "https://img.freepik.com/foto-gratis/manicurista-cerca-esmalte-unas_23-2149171334.jpg?semt=ais_hybrid&w=740&q=80",
-        provider: "Stefano Masotti",
-        duration: "1:30 hr",
-        rating: "4.0",
-        price: 5.000,
-        category: "Cabello",
-    },
-    {
-        id: 6,
-        name: "Limpieza Facial",
-        photo: "https://img.freepik.com/foto-gratis/manicurista-cerca-esmalte-unas_23-2149171334.jpg?semt=ais_hybrid&w=740&q=80",
-        provider: "Florencia Bustos",
-        duration: "2:00 hr",
-        rating: "4.8",
-        price: 8000,
-        category: "Spa",
-    },
-]
+import { notFound } from "next/navigation";
 
 export interface Service {
     id: string;
@@ -86,13 +24,19 @@ export interface Service {
 
 export default async function PageServices() {
 
-    console.log("Antes");
+    let services: Service[];
+
+    try {
+        const fetchServices = await axios.get('http://localhost:3000/services/find-all')
+        services = fetchServices.data;
+        if (services.length === 0) {
+            notFound();
+        }
+    } catch (error) {
+        console.error("Error fetching service data:", error);
+        notFound();
+    }
     
-    const fetchServices = await axios.get('http://localhost:3000/services/find-all')
-
-    const services: Service[] = fetchServices.data;
-
-    console.log(services);
     return (
         <main
         className="
