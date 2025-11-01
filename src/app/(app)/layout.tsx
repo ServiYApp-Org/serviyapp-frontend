@@ -50,11 +50,7 @@ export default function AppLayout({
 					padding: "2rem",
 				}}
 			>
-				{/* Botón flotante de logout */}
-				<div className="fixed bottom-6 right-6 z-50">
-					<LogoutButton />
-				</div>
-
+				
 				{/* Evita solaparse con header y navbar mobile */}
 				<div className="pt-10 pb-10 md:pt-0 md:pb-0">{children}</div>
 			</main>
