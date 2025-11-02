@@ -82,7 +82,6 @@ export default function RegisterProvider() {
 	const [cities, setCities] = useState<any[]>([]);
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-	const [passwordStrength, setPasswordStrength] = useState("");
 
 	useEffect(() => {
 		const fetchCountriesData = async () => {
@@ -95,16 +94,6 @@ export default function RegisterProvider() {
 		};
 		fetchCountriesData();
 	}, []);
-
-	const evaluateStrength = (password: string) => {
-		if (!password) return "";
-		const strongRegex =
-			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
-		const mediumRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
-		if (strongRegex.test(password)) return "Fuerte";
-		if (mediumRegex.test(password)) return "Media";
-		return "Débil";
-	};
 
 	return (
 		<motion.div
@@ -186,7 +175,7 @@ export default function RegisterProvider() {
 								"provider_id",
 								res.provider.id
 							);
-							// Esperar 2 segundos antes de redirigir
+
 							setTimeout(() => {
 								router.push("/loginProvider");
 							}, 2000);
@@ -250,25 +239,6 @@ export default function RegisterProvider() {
 								</div>
 							</div>
 
-							{/* Username */}
-							<div className="relative">
-								<FontAwesomeIcon
-									icon={faUser}
-									className="absolute left-3 top-3 text-gray-400"
-								/>
-								<Field
-									type="text"
-									name="userName"
-									placeholder="Nombre de usuario"
-									className="w-full pl-9 pr-3 py-2 border rounded-lg text-sm focus:ring-2"
-								/>
-								<ErrorMessage
-									name="userName"
-									component="p"
-									className="text-red-500 text-xs mt-1"
-								/>
-							</div>
-
 							{/* Email */}
 							<div className="relative">
 								<FontAwesomeIcon
@@ -288,6 +258,25 @@ export default function RegisterProvider() {
 								/>
 							</div>
 
+							{/* Username */}
+							<div className="relative">
+								<FontAwesomeIcon
+									icon={faUser}
+									className="absolute left-3 top-3 text-gray-400"
+								/>
+								<Field
+									type="text"
+									name="userName"
+									placeholder="Nombre de usuario"
+									className="w-full pl-9 pr-3 py-2 border rounded-lg text-sm focus:ring-2"
+								/>
+								<ErrorMessage
+									name="userName"
+									component="p"
+									className="text-red-500 text-xs mt-1"
+								/>
+							</div>
+
 							{/* Contraseña */}
 							<div className="relative">
 								<FontAwesomeIcon
@@ -299,17 +288,6 @@ export default function RegisterProvider() {
 									name="password"
 									placeholder="Contraseña"
 									className="w-full pl-9 pr-10 py-2 border rounded-lg text-sm focus:ring-2"
-									onChange={(
-										e: React.ChangeEvent<HTMLInputElement>
-									) => {
-										setFieldValue(
-											"password",
-											e.target.value
-										);
-										setPasswordStrength(
-											evaluateStrength(e.target.value)
-										);
-									}}
 								/>
 								<button
 									type="button"
@@ -322,19 +300,6 @@ export default function RegisterProvider() {
 										icon={showPassword ? faEyeSlash : faEye}
 									/>
 								</button>
-								{passwordStrength && (
-									<p
-										className={`text-xs mt-1 ${
-											passwordStrength === "Fuerte"
-												? "text-green-600"
-												: passwordStrength === "Media"
-												? "text-yellow-500"
-												: "text-red-500"
-										}`}
-									>
-										Seguridad: {passwordStrength}
-									</p>
-								)}
 							</div>
 
 							{/* Confirmar contraseña */}
