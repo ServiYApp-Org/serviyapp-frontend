@@ -4,11 +4,8 @@ import ServiceCard from "@/app/components/ServiceCard";
 import SearchBar from "@/app/components/SearchBar";
 import axios from "axios";
 
-/*-- Iconos --*/
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faClock, faTag, faDollarSign } from "@fortawesome/free-solid-svg-icons";
 import FilterTag from "@/app/components/FilterTag";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 export interface Service {
