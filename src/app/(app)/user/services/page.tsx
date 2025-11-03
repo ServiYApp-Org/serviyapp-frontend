@@ -61,7 +61,7 @@ export default async function PageServices() {
 
 			{/* Filtros */}
 			<span className="text-[#949492] mt-5">
-				Filtra por:
+				Ordenar por:
 				<ul className="flex flex-col lg:flex-row text-black font-semibold gap-2 rounded-lg mb-4">
 					<FilterTag icon={faDollarSign} label="Menor Precio" />
 					<FilterTag icon={faStar} label="Mejore Valorado" />

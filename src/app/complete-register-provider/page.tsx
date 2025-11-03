@@ -69,17 +69,12 @@ export default function CompleteRegister() {
 	// Token & ID
 	useEffect(() => {
 		if (typeof window !== "undefined") {
-			const searchParams = new URLSearchParams(window.location.search);
-			const t = searchParams.get("token");
-			const id = searchParams.get("id");
-			const role = searchParams.get("role"); // ✅ agregado
-			if (t && id) {
-				localStorage.setItem("access_token", t);
-				localStorage.setItem("provider_id", id);
-			}
-			if (role) {
-				localStorage.setItem("user_role", role); // ✅ agregado
-			}
+			const params = new URLSearchParams(window.location.search);
+			const id = params.get("id");
+			const token = params.get("token");
+
+			if (token) localStorage.setItem("access_token", token);
+			if (id) localStorage.setItem("provider_id", id);
 		}
 	}, []);
 
@@ -171,7 +166,6 @@ export default function CompleteRegister() {
 								{
 									headers: {
 										Authorization: `Bearer ${token}`,
-										"Content-Type": "application/json",
 									},
 								}
 							);
@@ -181,12 +175,7 @@ export default function CompleteRegister() {
 							);
 
 							setTimeout(() => {
-								// ✅ agregado: redirigir según rol
-								const role =
-									localStorage.getItem("user_role") ||
-									"provider";
-								if (role === "user") router.push("/user/home");
-								else router.push("/provider/home");
+								router.push("/loginProvider");
 							}, 2000);
 						} catch (error: any) {
 							console.error("Error completando perfil:", error);

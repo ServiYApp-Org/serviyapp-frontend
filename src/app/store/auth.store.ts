@@ -4,12 +4,17 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 export type Role = "admin" | "provider" | "user";
+
 export interface User {
 	id: string;
 	email: string;
 	names?: string;
 	surnames?: string;
-	profilePicture?:string;
+	phone?: string;
+	country?: string;
+	profilePicture?: string;
+	role: Role;
+	isCompleted?: boolean;
 }
 
 interface AuthState {
@@ -40,14 +45,15 @@ export const useAuthStore = create<AuthState>()(
 			clearAuth: () => {
 				set({
 					token: null,
-					role: null,
 					user: null,
+					role: null,
 					isAuthenticated: false,
 				});
+				localStorage.removeItem("access_token");
+				localStorage.removeItem("user_id");
+				localStorage.removeItem("provider_id");
 			},
 		}),
-		{
-			name: "serviyapp-auth", // clave única en localStorage
-		}
+		{ name: "serviyapp-auth" }
 	)
 );
