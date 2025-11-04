@@ -71,7 +71,7 @@ const registerSchema = Yup.object().shape({
 		.min(3, "La dirección es demasiado corta.")
 		.required("La dirección es obligatoria."),
 	phone: Yup.string()
-		.matches(/^[0-9]{8,10}$/, "Solo números (8–10 dígitos).")
+		.matches(/^[0-9]{8,12}$/, "Solo números (8–12 dígitos).")
 		.required("El teléfono es obligatorio."),
 });
 
@@ -146,18 +146,22 @@ export default function RegisterProvider() {
 							const selectedCountry = countries.find(
 								(c) => c.id === values.country
 							);
+
+							// ⚠️ Mapeo EXACTO a lo que espera tu backend:
 							const payload = {
-								firstName: values.names,
-								lastName: values.lastName,
-								username: values.userName,
+								names: values.names,
+								surnames: values.lastName,
+								userName: values.userName,
 								email: values.email,
 								password: values.password,
-								phone: `${selectedCountry?.phoneCode || ""}${
-									values.phone
-								}`,
-								country: values.country,
-								region: values.region,
-								city: values.city,
+								phone: `${
+									selectedCountry?.phoneCode ||
+									selectedCountry?.lada ||
+									""
+								}${values.phone}`,
+								countryId: values.country,
+								regionId: values.region,
+								cityId: values.city,
 								address: values.address,
 							};
 
@@ -300,6 +304,11 @@ export default function RegisterProvider() {
 										icon={showPassword ? faEyeSlash : faEye}
 									/>
 								</button>
+								<ErrorMessage
+									name="password"
+									component="p"
+									className="text-red-500 text-xs mt-1"
+								/>
 							</div>
 
 							{/* Confirmar contraseña */}
@@ -335,6 +344,11 @@ export default function RegisterProvider() {
 										}
 									/>
 								</button>
+								<ErrorMessage
+									name="confirmPassword"
+									component="p"
+									className="text-red-500 text-xs mt-1"
+								/>
 							</div>
 
 							{/* País */}
@@ -354,6 +368,8 @@ export default function RegisterProvider() {
 										setFieldValue("country", countryId);
 										setFieldValue("region", "");
 										setFieldValue("city", "");
+										setRegions([]);
+										setCities([]);
 										const data = await getRegionsByCountry(
 											countryId
 										);
@@ -367,6 +383,11 @@ export default function RegisterProvider() {
 										</option>
 									))}
 								</Field>
+								<ErrorMessage
+									name="country"
+									component="p"
+									className="text-red-500 text-xs mt-1"
+								/>
 							</div>
 
 							{/* Región */}
@@ -386,6 +407,7 @@ export default function RegisterProvider() {
 										const regionId = e.target.value;
 										setFieldValue("region", regionId);
 										setFieldValue("city", "");
+										setCities([]);
 										const data = await getCitiesByRegion(
 											regionId
 										);
@@ -403,6 +425,11 @@ export default function RegisterProvider() {
 										</option>
 									))}
 								</Field>
+								<ErrorMessage
+									name="region"
+									component="p"
+									className="text-red-500 text-xs mt-1"
+								/>
 							</div>
 
 							{/* Ciudad */}
@@ -428,6 +455,11 @@ export default function RegisterProvider() {
 										</option>
 									))}
 								</Field>
+								<ErrorMessage
+									name="city"
+									component="p"
+									className="text-red-500 text-xs mt-1"
+								/>
 							</div>
 
 							{/* Dirección */}
@@ -441,6 +473,11 @@ export default function RegisterProvider() {
 									name="address"
 									placeholder="Dirección"
 									className="w-full pl-9 pr-3 py-2 border rounded-lg text-sm focus:ring-2"
+								/>
+								<ErrorMessage
+									name="address"
+									component="p"
+									className="text-red-500 text-xs mt-1"
 								/>
 							</div>
 
@@ -507,6 +544,11 @@ export default function RegisterProvider() {
 									className="w-full pl-[125px] pr-3 py-2 border rounded-lg text-sm focus:ring-2 transition-all"
 								/>
 							</div>
+							<ErrorMessage
+								name="phone"
+								component="p"
+								className="text-red-500 text-xs mt-1"
+							/>
 
 							{/* Botón */}
 							<button
@@ -556,7 +598,7 @@ export default function RegisterProvider() {
 								¿Ya tienes una cuenta?{" "}
 								<a
 									onClick={() =>
-										router.push("/registerProvider/step2")
+										router.push("/loginProvider")
 									}
 									className="font-semibold cursor-pointer"
 									style={{ color: "var(--color-primary)" }}
