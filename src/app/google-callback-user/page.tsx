@@ -21,31 +21,39 @@ export default function GoogleCallbackUser() {
 
 		(async () => {
 			try {
-				// 1. guardar token en localStorage
+				// 1️⃣ Guardar token en localStorage
 				localStorage.setItem("access_token", token);
 
-				// 2. pedir user con /auth/me
+				// 2️⃣ Obtener usuario desde el backend
 				const { data: user } = await Api.get("/auth/me", {
 					headers: { Authorization: `Bearer ${token}` },
 				});
-				console.log("Respuesta backend:", user);
-				// 3. guardar en Zustand
+				console.log("👤 Usuario recibido desde /auth/me:", user);
+
+				// 3️⃣ Guardar en Zustand
 				setAuth({
 					token,
 					role: user.role,
-					user,
+					user: {
+						id: user.id,
+						email: user.email,
+						names: user.names,
+						surnames: user.surnames,
+						phone: user.phone,
+						country: user.country?.name || "",
+						profilePicture: user.profilePicture || "",
+						role: user.role,
+						isCompleted: user.isCompleted,
+					},
 				});
 
-				console.log(
-					"Usuario guardado en Zustand:",
-					useAuthStore.getState().user
-				);
+				console.log("🧠 Estado actualizado:", useAuthStore.getState());
 
 				toast.success("Inicio de sesión con Google exitoso", {
 					autoClose: 1500,
 				});
 
-				// 4. redirigir
+				// 4️⃣ Redirigir según el estado del perfil
 				setTimeout(() => {
 					if (!user.isCompleted) {
 						router.push(`/complete-register-user?id=${user.id}`);
@@ -54,11 +62,12 @@ export default function GoogleCallbackUser() {
 					}
 				}, 1500);
 			} catch (err) {
+				console.error("❌ Error al obtener datos del usuario:", err);
 				toast.error("Error al recuperar datos de usuario");
 				router.push("/loginUser");
 			}
 		})();
-	}, []);
+	}, [params, router, setAuth]);
 
 	return (
 		<div className="flex items-center justify-center min-h-screen">

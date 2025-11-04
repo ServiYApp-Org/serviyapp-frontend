@@ -20,7 +20,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ReactCountryFlag from "react-country-flag";
 import { getCountries } from "../services/provider.service";
+import { useAuthStore } from "@/app/store/auth.store"; // ✅ Importa el store
 
+// ✅ Esquema de validación
 const completeSchema = Yup.object().shape({
 	createPassword: Yup.boolean(),
 	password: Yup.string().when("createPassword", {
@@ -52,28 +54,17 @@ export default function CompleteRegisterUser() {
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 	const [countries, setCountries] = useState<any[]>([]);
+	const { user, token } = useAuthStore(); // ✅ Obtenemos el user y token del store
 
 	useEffect(() => {
-		const fetchCountries = async () => {
+		(async () => {
 			try {
 				const data = await getCountries();
 				setCountries(data);
 			} catch (error) {
 				console.error("Error cargando países:", error);
 			}
-		};
-		fetchCountries();
-	}, []);
-
-	useEffect(() => {
-		if (typeof window !== "undefined") {
-			const params = new URLSearchParams(window.location.search);
-			const id = params.get("id");
-			const token = params.get("token");
-
-			if (token) localStorage.setItem("access_token", token);
-			if (id) localStorage.setItem("user_id", id);
-		}
+		})();
 	}, []);
 
 	return (
@@ -117,13 +108,8 @@ export default function CompleteRegisterUser() {
 					validationSchema={completeSchema}
 					onSubmit={async (values, { setSubmitting }) => {
 						try {
-							const token = localStorage.getItem("access_token");
-							const userId = localStorage.getItem("user_id");
-
-							if (!token || !userId) {
-								throw new Error(
-									"Faltan datos de autenticación."
-								);
+							if (!token || !user?.id) {
+								throw new Error("Faltan datos de sesión.");
 							}
 
 							const selectedCountry = countries.find(
@@ -133,7 +119,6 @@ export default function CompleteRegisterUser() {
 								selectedCountry?.lada?.replace("+", "") || "";
 							const fullPhone = `${lada}${values.phone}`;
 
-							// ✅ Aquí se corrigió: se debe enviar "country", NO "country_id"
 							const payload: any = {
 								phone: fullPhone,
 								country: values.country,
@@ -144,7 +129,7 @@ export default function CompleteRegisterUser() {
 							}
 
 							await axios.patch(
-								`${process.env.NEXT_PUBLIC_API_URL}/users/complete/${userId}`,
+								`${process.env.NEXT_PUBLIC_API_URL}/users/complete/${user.id}`,
 								payload,
 								{
 									headers: {
@@ -153,16 +138,16 @@ export default function CompleteRegisterUser() {
 								}
 							);
 
-							toast.success(
-								"¡Perfil completado correctamente! Serás redirigido...",
-								{
-									autoClose: 2000,
-								}
-							);
+							toast.success("¡Perfil completado correctamente!", {
+								autoClose: 2000,
+							});
 
 							setTimeout(() => router.push("/loginUser"), 2000);
-						} catch (error: any) {
-							console.error("Error completando perfil:", error);
+						} catch (error) {
+							console.error(
+								"❌ Error completando perfil:",
+								error
+							);
 							Swal.fire({
 								icon: "error",
 								title: "Error al guardar",
@@ -175,6 +160,7 @@ export default function CompleteRegisterUser() {
 				>
 					{({ values, setFieldValue, isSubmitting, isValid }) => (
 						<Form className="space-y-4">
+							{/* Checkbox para crear contraseña */}
 							<div className="flex items-center gap-2">
 								<Field
 									type="checkbox"
@@ -186,8 +172,10 @@ export default function CompleteRegisterUser() {
 								</label>
 							</div>
 
+							{/* Campos de contraseña */}
 							{values.createPassword && (
 								<div className="space-y-3">
+									{/* Contraseña */}
 									<div className="relative">
 										<FontAwesomeIcon
 											icon={faLock}
@@ -225,6 +213,7 @@ export default function CompleteRegisterUser() {
 										/>
 									</div>
 
+									{/* Confirmar contraseña */}
 									<div className="relative">
 										<FontAwesomeIcon
 											icon={faLock}
@@ -266,6 +255,7 @@ export default function CompleteRegisterUser() {
 								</div>
 							)}
 
+							{/* Selección de país */}
 							<div className="relative">
 								<FontAwesomeIcon
 									icon={faGlobe}
@@ -293,6 +283,7 @@ export default function CompleteRegisterUser() {
 								/>
 							</div>
 
+							{/* Teléfono con bandera y lada */}
 							<div className="relative flex items-center">
 								<FontAwesomeIcon
 									icon={faPhone}
@@ -345,6 +336,7 @@ export default function CompleteRegisterUser() {
 								className="text-red-500 text-xs mt-1"
 							/>
 
+							{/* Botón de guardar */}
 							<button
 								type="submit"
 								disabled={!isValid || isSubmitting}
